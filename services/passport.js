@@ -24,16 +24,14 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      user.findOne({ userID: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          new user({ userID: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await user.findOne({ userID: profile.id });
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        const user = await new user({ userID: profile.id }).save();
+        done(null, user);
+      }
     }
   )
 );
@@ -46,16 +44,14 @@ passport.use(
       callbackURL: "/auth/linkedin/callback",
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
-      user.findOne({ userID: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          new user({ userID: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await user.findOne({ userID: profile.id });
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        const user = await new user({ userID: profile.id }).save();
+        done(null, user);
+      }
     }
   )
 );
